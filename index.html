@@ -75,13 +75,13 @@
     </div>
 
     <div class="hint">
-      This page works perfectly on GitHub Pages
+      Works on GitHub Pages
     </div>
   </div>
 
   <script>
     // ===== CONFIGURE THIS =====
-    const DHAN_AUTH_URL = "https://api.dhan.co/oauth/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_GITHUB_PAGES_URL&response_type=code";
+    const DHAN_AUTH_URL = "https://api.dhan.co/oauth/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=https://saurabhlinux.github.io/DhanApi/&response_type=code";
 
     const loginBtn = document.getElementById("loginBtn");
     const codeSection = document.getElementById("codeSection");
@@ -101,6 +101,9 @@
       loginBtn.style.display = "none";
       codeSection.style.display = "block";
       authCodeBox.textContent = code;
+
+      // Clean URL after displaying code
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
 
     // Copy to clipboard
@@ -116,3 +119,4 @@
   </script>
 </body>
 </html>
+
