@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dhan API Code Copier</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: #020617;
+      padding: 24px 28px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      text-align: center;
+    }
+    h1 {
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+    button.secondary {
+      background: #334155;
+    }
+    button:disabled {
+      background: #475569;
+      cursor: not-allowed;
+    }
+    .code-box {
+      background: #020617;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 14px;
+      word-break: break-all;
+      font-family: monospace;
+      font-size: 13px;
+    }
+    .hint {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Dhan API – Auth Code Copier</h1>
+
+    <button id="loginBtn">Login with Dhan</button>
+
+    <div id="codeSection" style="display:none;">
+      <div class="code-box" id="authCode"></div>
+      <button class="secondary" id="copyBtn">Copy Code</button>
+    </div>
+
+    <div class="hint">
+      This page works perfectly on GitHub Pages
+    </div>
+  </div>
+
+  <script>
+    // ===== CONFIGURE THIS =====
+    const DHAN_AUTH_URL = "https://api.dhan.co/oauth/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_GITHUB_PAGES_URL&response_type=code";
+
+    const loginBtn = document.getElementById("loginBtn");
+    const codeSection = document.getElementById("codeSection");
+    const authCodeBox = document.getElementById("authCode");
+    const copyBtn = document.getElementById("copyBtn");
+
+    // Redirect to Dhan OAuth
+    loginBtn.onclick = () => {
+      window.location.href = DHAN_AUTH_URL;
+    };
+
+    // Read ?code= from redirect URL
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+
+    if (code) {
+      loginBtn.style.display = "none";
+      codeSection.style.display = "block";
+      authCodeBox.textContent = code;
+    }
+
+    // Copy to clipboard
+    copyBtn.onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(authCodeBox.textContent);
+        copyBtn.textContent = "Copied ✓";
+        setTimeout(() => (copyBtn.textContent = "Copy Code"), 1500);
+      } catch (err) {
+        alert("Copy failed. Please copy manually.");
+      }
+    };
+  </script>
+</body>
+</html>
